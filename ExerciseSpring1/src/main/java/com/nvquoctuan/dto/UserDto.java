@@ -26,5 +26,4 @@ public class UserDto {
   @Max(value = ValidateEntityConstant.MAX_SIZE_CHARACTER)
   private String lastName;
   private Date birthDay;
-  private Date insertedDate;
 }

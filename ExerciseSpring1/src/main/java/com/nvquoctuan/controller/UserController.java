@@ -21,7 +21,7 @@ public class UserController {
   @Autowired
   private UserServiceImpl userService;
 
-  @GetMapping("username-or-firstname")
+  @GetMapping("/username-or-firstname")
   public ResponseEntity<List<UserEntity>> getByUserNameOrFirstName(@RequestParam(name = "q",
       defaultValue = "") String keyword, @RequestParam(defaultValue = "0") Integer page) {
 
