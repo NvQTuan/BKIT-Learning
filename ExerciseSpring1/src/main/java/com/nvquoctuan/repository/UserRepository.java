@@ -2,8 +2,7 @@ package com.nvquoctuan.repository;
 
 import com.nvquoctuan.entity.UserEntity;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -19,5 +18,5 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
   @Query("SELECT u FROM UserEntity u WHERE u.userName LIKE CONCAT('%', :keyword, '%') OR "
       + "(u.firstName LIKE CONCAT('%', :keyword, '%') OR u.lastName LIKE CONCAT('%', :keyword, '%') OR "
       + "(u.firstName LIKE CONCAT('%', :keyword, '%') AND u.lastName LIKE CONCAT('%', :keyword, '%')))")
-  List<UserEntity> findByUserNameOrFullName(String keyword);
+  Optional<UserEntity> findByUserNameOrFullName(String keyword);
 }

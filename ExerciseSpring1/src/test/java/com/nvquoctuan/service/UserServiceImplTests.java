@@ -6,7 +6,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import com.nvquoctuan.constant.PageConstant;
-import com.nvquoctuan.dto.UserDto;
 import com.nvquoctuan.entity.UserEntity;
 import com.nvquoctuan.repository.UserRepository;
 import java.util.Date;
@@ -44,19 +43,15 @@ public class UserServiceImplTests {
 
   @Test
   void saveUser_whenSaveUser_thenReturnUser() {
-    final UserEntity userEntity = buildUserEntity();
-
-    userServiceImpl.createUser(userEntity);
-    verify(userRepository, times(1)).save(userEntity);
-  }
-
-  private UserEntity buildUserEntity() {
-    return UserEntity.builder()
+    final UserEntity userEntity = UserEntity.builder()
         .userName("userName")
         .firstName("userName")
-        .lastName("lastName")
+        .lastName("lastName" )
         .birthDay(new Date())
         .insertedDate(new Date())
         .build();
+
+    userServiceImpl.createUser(userEntity);
+    verify(userRepository, times(1)).save(userEntity);
   }
 }

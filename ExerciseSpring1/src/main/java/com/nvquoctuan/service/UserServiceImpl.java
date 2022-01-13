@@ -4,6 +4,7 @@ import com.nvquoctuan.constant.PageConstant;
 import com.nvquoctuan.entity.UserEntity;
 import com.nvquoctuan.repository.UserRepository;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<UserEntity> findByUserNameOrFullName(String search) {
+  public Optional<UserEntity> findByUserNameOrFullName(String search) {
     return userRepository.findByUserNameOrFullName(search);
   }
 

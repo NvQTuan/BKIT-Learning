@@ -6,7 +6,6 @@ import com.nvquoctuan.service.UserServiceImpl;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,18 +24,20 @@ public class UserController {
   private final UserServiceImpl userService;
 
   @GetMapping("/username-or-firstname")
-  public ResponseEntity<List<UserEntity>> getByUserNameOrFirstName(@RequestParam(name = "q",
+  public ResponseEntity<?> getByUserNameOrFirstName(@RequestParam(name = "q",
       defaultValue = "") String keyword, @RequestParam(defaultValue = "1") Integer page) {
-
-    final List<UserEntity> responseListUser = userService.findByUserNameOrFirstName(keyword, page);
-    return new ResponseEntity<>(responseListUser, HttpStatus.OK);
+    final List<UserEntity> userEntity = userService.findByUserNameOrFirstName(keyword, page);
+    if (userEntity.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok().body(userEntity);
   }
 
-  @GetMapping("username-or-fullname")
-  public ResponseEntity<List<UserEntity>> getByUserNameOrFullName(@RequestParam(name = "q",
+  @GetMapping("/username-or-fullname")
+  public ResponseEntity<?> getByUserNameOrFullName(@RequestParam(name = "q",
       defaultValue = "") String keyword) {
-    final List<UserEntity> responseListUser = userService.findByUserNameOrFullName(keyword);
-    return new ResponseEntity<>(responseListUser, HttpStatus.OK);
+    return userService.findByUserNameOrFullName(keyword)
+        .map(user -> ResponseEntity.ok().body(user)).orElse(ResponseEntity.notFound().build());
   }
 
   @PostMapping
