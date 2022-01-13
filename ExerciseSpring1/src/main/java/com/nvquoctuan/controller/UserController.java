@@ -15,21 +15,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
   @Autowired
   private UserServiceImpl userService;
 
-  public ResponseEntity<List<UserEntity>> getByUserNameOrFirstName(@RequestParam("q") String keyword,
-      @RequestParam(required = true, defaultValue = "0") Integer page) {
+  @GetMapping("username-or-firstname")
+  public ResponseEntity<List<UserEntity>> getByUserNameOrFirstName(@RequestParam(name = "q",
+      defaultValue = "") String keyword, @RequestParam(defaultValue = "0") Integer page) {
 
     final List<UserEntity> responseListUser = userService.findByUserNameOrFirstName(keyword, page);
     return new ResponseEntity<>(responseListUser, HttpStatus.OK);
   }
 
-  public ResponseEntity<List<UserEntity>> getByUserNameOrFullName(@RequestParam("q") String keyword) {
-
+  @GetMapping("username-or-fullname")
+  public ResponseEntity<List<UserEntity>> getByUserNameOrFullName(@RequestParam(name = "q",
+      defaultValue = "") String keyword) {
     final List<UserEntity> responseListUser = userService.findByUserNameOrFullName(keyword);
     return new ResponseEntity<>(responseListUser, HttpStatus.OK);
   }

@@ -10,11 +10,12 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<UserEntity, Long> {
 
-  @Query("SELECT u FROM UserEntity u WHERE u.userName = :keyword OR u.firstName = :keyword")
+  @Query("SELECT u FROM UserEntity u WHERE u.userName LIKE CONCAT('%', :keyword, '%') "
+      + "OR u.firstName LIKE CONCAT('%', :keyword, '%')")
   List<UserEntity> findByUserNameOrFirstName(String keyword, Pageable pageable);
 
-  @Query("SELECT u FROM UserEntity u WHERE u.userName = :keyword OR "
-      + "(u.firstName = :keyword OR u.lastName = :keyword OR "
-      + "(u.firstName = :keyword AND u.lastName = :keyword))")
+  @Query("SELECT u FROM UserEntity u WHERE u.userName LIKE CONCAT('%', :keyword, '%') OR "
+      + "(u.firstName LIKE CONCAT('%', :keyword, '%') OR u.lastName LIKE CONCAT('%', :keyword, '%') OR "
+      + "(u.firstName LIKE CONCAT('%', :keyword, '%') AND u.lastName LIKE CONCAT('%', :keyword, '%')))")
   List<UserEntity> findByUserNameOrFullName(String keyword);
 }
