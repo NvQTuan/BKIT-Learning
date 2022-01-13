@@ -32,15 +32,12 @@ public class UserEntity {
   private Long id;
 
   @Column(name = "user_name")
-  @Size(min = ValidateEntityConstant.MIN_SIZE_USERNAME, max = ValidateEntityConstant.MAX_SIZE_USERNAME)
   private String userName;
 
   @Column(name = "first_name")
-  @Max(value = ValidateEntityConstant.MAX_SIZE_CHARACTER)
   private String firstName;
 
   @Column(name = "last_name")
-  @Max(value = ValidateEntityConstant.MAX_SIZE_CHARACTER)
   private String lastName;
 
   @Column(name = "birth_day")

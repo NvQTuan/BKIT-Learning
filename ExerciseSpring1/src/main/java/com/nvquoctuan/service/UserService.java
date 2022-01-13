@@ -1,13 +1,12 @@
 package com.nvquoctuan.service;
 
+import com.nvquoctuan.dto.UserDto;
 import com.nvquoctuan.entity.UserEntity;
 import java.util.List;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 public interface UserService {
 
-  public List<UserEntity> findByUserNameOrFirstName(String search, Integer pageNumber);
-
-  public List<UserEntity> findByUserNameOrFirstNameAndLastName(String search);
+  public List<UserEntity> findByUserNameOrFirstName(String keyword, Integer pageNumber);
+  public List<UserEntity> findByUserNameOrFullName(String keyword);
+  public UserEntity createUser(UserDto userDto);
 }
