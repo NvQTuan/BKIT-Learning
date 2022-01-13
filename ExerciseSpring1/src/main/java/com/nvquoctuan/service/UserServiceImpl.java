@@ -18,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<UserEntity> findByUserNameOrFirstName(String keyword, Integer pageNumber) {
-    Pageable pageable = PageRequest.of(pageNumber, PageConstant.PAGE_SIZE);
+    Pageable pageable = PageRequest.of(getPageNumber(pageNumber), PageConstant.PAGE_SIZE);
     return userRepository.findByUserNameOrFirstName(keyword, pageable);
   }
 
@@ -35,5 +35,9 @@ public class UserServiceImpl implements UserService {
         .lastName(userDto.getLastName())
         .birthDay(userDto.getBirthDay())
         .build());
+  }
+
+  private Integer getPageNumber(Integer pageNumber) {
+    return pageNumber <= 1 ? 0 : pageNumber - 1;
   }
 }

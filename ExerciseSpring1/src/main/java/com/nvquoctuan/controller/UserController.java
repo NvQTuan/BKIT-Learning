@@ -23,7 +23,7 @@ public class UserController {
 
   @GetMapping("/username-or-firstname")
   public ResponseEntity<List<UserEntity>> getByUserNameOrFirstName(@RequestParam(name = "q",
-      defaultValue = "") String keyword, @RequestParam(defaultValue = "0") Integer page) {
+      defaultValue = "") String keyword, @RequestParam(defaultValue = "1") Integer page) {
 
     final List<UserEntity> responseListUser = userService.findByUserNameOrFirstName(keyword, page);
     return new ResponseEntity<>(responseListUser, HttpStatus.OK);
