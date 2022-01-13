@@ -38,6 +38,12 @@ public class UserController {
 
   @PostMapping
   public ResponseEntity<UserEntity> createUser(@RequestBody UserDto userDto) {
-    return new ResponseEntity<>(userService.createUser(userDto), HttpStatus.CREATED);
+    final UserEntity userEntity = UserEntity.builder()
+        .userName(userDto.getUserName())
+        .firstName(userDto.getFirstName())
+        .lastName(userDto.getLastName())
+        .birthDay(userDto.getBirthDay())
+        .build();
+    return new ResponseEntity<>(userService.createUser(userEntity), HttpStatus.CREATED);
   }
 }

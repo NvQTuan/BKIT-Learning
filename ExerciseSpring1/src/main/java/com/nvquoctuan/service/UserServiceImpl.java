@@ -1,6 +1,5 @@
 package com.nvquoctuan.service;
 
-import com.nvquoctuan.dto.UserDto;
 import com.nvquoctuan.constant.PageConstant;
 import com.nvquoctuan.entity.UserEntity;
 import com.nvquoctuan.repository.UserRepository;
@@ -28,13 +27,8 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public UserEntity createUser(UserDto userDto) {
-    return userRepository.save(UserEntity.builder()
-        .userName(userDto.getUserName())
-        .firstName(userDto.getFirstName())
-        .lastName(userDto.getLastName())
-        .birthDay(userDto.getBirthDay())
-        .build());
+  public UserEntity createUser(UserEntity userEntity) {
+    return userRepository.save(userEntity);
   }
 
   private Integer getPageNumber(Integer pageNumber) {
