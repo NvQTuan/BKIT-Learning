@@ -17,6 +17,6 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
 
   @Query("SELECT u FROM UserEntity u WHERE u.userName LIKE CONCAT('%', :keyword, '%') OR "
       + "(u.firstName LIKE CONCAT('%', :keyword, '%') OR u.lastName LIKE CONCAT('%', :keyword, '%') OR "
-      + "(u.firstName LIKE CONCAT('%', :keyword, '%') AND u.lastName LIKE CONCAT('%', :keyword, '%')))")
-  Optional<UserEntity> findByUserNameOrFullName(String keyword);
+      + "(u.lastName LIKE CONCAT('%', :keyword, '%') AND u.firstName LIKE CONCAT('%', :keyword, '%')))")
+  List<UserEntity> findByUserNameOrFullName(String keyword);
 }

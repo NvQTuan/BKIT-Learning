@@ -1,9 +1,12 @@
 package com.nvquoctuan.controller;
 
+import static java.util.Arrays.stream;
+
 import com.nvquoctuan.dto.UserDto;
 import com.nvquoctuan.entity.UserEntity;
 import com.nvquoctuan.service.UserServiceImpl;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -28,7 +31,7 @@ public class UserController {
       defaultValue = "") String keyword, @RequestParam(defaultValue = "1") Integer page) {
     final List<UserEntity> userEntity = userService.findByUserNameOrFirstName(keyword, page);
     if (userEntity.isEmpty()) {
-      return ResponseEntity.notFound().build();
+      return ResponseEntity.noContent().build();
     }
     return ResponseEntity.ok().body(userEntity);
   }
@@ -36,8 +39,11 @@ public class UserController {
   @GetMapping("/username-or-fullname")
   public ResponseEntity<?> getByUserNameOrFullName(@RequestParam(name = "q",
       defaultValue = "") String keyword) {
-    return userService.findByUserNameOrFullName(keyword)
-        .map(user -> ResponseEntity.ok().body(user)).orElse(ResponseEntity.notFound().build());
+    final List<UserEntity> userEntity = userService.findByUserNameOrFullName(keyword);
+    if (userEntity.isEmpty()) {
+      return ResponseEntity.noContent().build();
+    }
+    return ResponseEntity.ok().body(userEntity);
   }
 
   @PostMapping
