@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface UserService {
 
-  public Page<UserEntity> findByUserNameOrFirstName(String search, Pageable pageable);
+  public List<UserEntity> findByUserNameOrFirstName(String search, Integer pageNumber);
 
   public List<UserEntity> findByUserNameOrFirstNameAndLastName(String search);
 }
