@@ -4,16 +4,24 @@ import com.nvquoctuan.constant.PageConstant;
 import com.nvquoctuan.entity.UserEntity;
 import com.nvquoctuan.repository.UserRepository;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
-  @Autowired
   private UserRepository userRepository;
+
+  @Autowired
+  public UserServiceImpl(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
   @Override
   public List<UserEntity> findByUserNameOrFirstName(String keyword, Integer pageNumber) {

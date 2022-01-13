@@ -2,6 +2,8 @@ package com.nvquoctuan.repository;
 
 import com.nvquoctuan.entity.UserEntity;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
