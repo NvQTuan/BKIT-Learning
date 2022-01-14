@@ -1,9 +1,11 @@
 package com.nvquoctuan.service;
 
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.nvquoctuan.constant.PageConstant;
 import com.nvquoctuan.entity.UserEntity;
@@ -37,8 +39,9 @@ public class UserServiceImplTests {
 
   @Test
   void getUser_whenFindByUserNameOrFullName_thenReturnUser() {
+    when(userRepository.findByUserNameContains(anyString())).thenReturn(anyList());
     userServiceImpl.findByUserNameOrFullName(anyString());
-    verify(userRepository, times(1)).findByUserNameOrFullName(anyString());
+    verify(userRepository, times(1)).findByUserNameContains(anyString());
   }
 
   @Test
