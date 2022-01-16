@@ -13,6 +13,5 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
   List<UserEntity> findByFirstNameStartsWith(String firstName);
   List<UserEntity> findByLastNameStartsWith(String lastName);
   List<UserEntity> findByLastNameStartsWithAndFirstNameContains(String lastName, String firstName);
-  List<UserEntity> findByUserNameContains(String keyword);
   boolean existsByUserName(String userName);
 }

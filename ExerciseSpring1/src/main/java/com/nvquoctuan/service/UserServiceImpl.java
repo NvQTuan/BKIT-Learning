@@ -58,7 +58,6 @@ public class UserServiceImpl implements UserService {
       final int indexStartFirstName = value + keywords.get(i1).length() + 1;
       final String firstNameKeyword = keywordSearch.length() > indexStartFirstName ? keywordSearch
           .substring(indexStartFirstName) : "";
-      System.out.println(lastNameKeyword + " - " + firstNameKeyword);
       responseUserEntity.addAll(userRepository
           .findByLastNameStartsWithAndFirstNameContains(lastNameKeyword, firstNameKeyword));
     });

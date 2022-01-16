@@ -35,10 +35,11 @@ public class UserServiceImplTests {
 //  }
 
   @Test
-  void getUser_whenFindByUserNameOrFullName_thenReturnUser() {
-    when(userRepository.findByUserNameContains(anyString())).thenReturn(anyList());
+  void getUser_whenFindByFullName_thenReturnUser() {
+    when(userRepository.findByFirstNameStartsWith(anyString())).thenReturn(anyList());
     userServiceImpl.getUserByFullName(anyString());
-    verify(userRepository, times(1)).findByUserNameContains(anyString());
+    verify(userRepository, times(1)).findByFirstNameStartsWith(anyString());
+    verify(userRepository, times(1)).findByLastNameStartsWith(anyString());
   }
 
   @Test
@@ -52,7 +53,7 @@ public class UserServiceImplTests {
   void checkUser_whenExistsUserName_thenReturnFalse() {
     boolean actual = userServiceImpl.existsByUserName(anyString());
     verify(userRepository, times(1)).existsByUserName(anyString());
-    Assertions.assertEquals(false, actual);
+    Assertions.assertFalse(actual);
   }
 
   private UserEntity buildUserEntity() {
