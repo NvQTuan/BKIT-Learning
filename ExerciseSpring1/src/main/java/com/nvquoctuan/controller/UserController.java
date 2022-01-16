@@ -1,21 +1,19 @@
 package com.nvquoctuan.controller;
 
-import static java.util.Arrays.stream;
 
 import com.nvquoctuan.dto.UserDto;
 import com.nvquoctuan.entity.UserEntity;
 import com.nvquoctuan.service.UserServiceImpl;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,33 +25,28 @@ public class UserController {
   private final UserServiceImpl userService;
 
   @GetMapping("/username-or-firstname")
-  public ResponseEntity<?> getByUserNameOrFirstName(@RequestParam(name = "q",
+  public List<UserEntity> getByUserNameOrFirstName(@RequestParam(name = "q",
       defaultValue = "") String keyword, @RequestParam(defaultValue = "1") Integer page) {
     final List<UserEntity> userEntity = userService.findByUserNameOrFirstName(keyword, page);
-    if (userEntity.isEmpty()) {
-      return ResponseEntity.noContent().build();
-    }
-    return ResponseEntity.ok().body(userEntity);
+    return userEntity;
   }
 
   @GetMapping("/username-or-fullname")
-  public ResponseEntity<?> getByUserNameOrFullName(@RequestParam(name = "q",
+  public List<UserEntity> getByUserNameOrFullName(@RequestParam(name = "q",
       defaultValue = "") String keyword) {
     final List<UserEntity> userEntity = userService.findByUserNameOrFullName(keyword);
-    if (userEntity.isEmpty()) {
-      return ResponseEntity.noContent().build();
-    }
-    return ResponseEntity.ok().body(userEntity);
+    return userEntity;
   }
 
   @PostMapping
-  public ResponseEntity<UserEntity> createUser(@RequestBody UserDto userDto) {
+  @ResponseStatus(HttpStatus.CREATED)
+  public UserEntity createUser(@RequestBody UserDto userDto) {
     final UserEntity userEntity = UserEntity.builder()
         .userName(userDto.getUserName())
         .firstName(userDto.getFirstName())
         .lastName(userDto.getLastName())
         .birthDay(userDto.getBirthDay())
         .build();
-    return new ResponseEntity<>(userService.createUser(userEntity), HttpStatus.CREATED);
+    return userService.createUser(userEntity);
   }
 }
