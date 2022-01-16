@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<UserEntity> getUserByFirstName(String firstName, int pageNumber, int size) {
-    final Pageable pageable = PageRequest.of(getPageNumber(pageNumber), getDefaultSize(size));
-    return userRepository.findByFirstName(firstName, pageable);
+    final Pageable pageable = PageRequest.of(getPageNumber(pageNumber), size);
+    return userRepository.findByFirstNameStartsWith(firstName, pageable);
   }
 
   @Override
@@ -59,7 +59,8 @@ public class UserServiceImpl implements UserService {
       final int indexStartFirstName = value + keywords.get(i1).length() + 1;
       final String firstNameKeyword = keywordSearch.length() > indexStartFirstName ? keywordSearch
           .substring(indexStartFirstName) : "";
-      responseUserEntity.addAll(userRepository.findByFullName(lastNameKeyword, firstNameKeyword));
+      responseUserEntity.addAll(userRepository
+          .findByLastNameEndsWithAndFirstNameStartsWith(lastNameKeyword, firstNameKeyword));
     });
     responseUserEntity.addAll(userRepository.findByUserNameContains(keywordSearch));
     return new ArrayList<>(responseUserEntity);
@@ -72,9 +73,5 @@ public class UserServiceImpl implements UserService {
 
   private Integer getPageNumber(int pageNumber) {
     return pageNumber <= 1 ? 0 : pageNumber - 1;
-  }
-
-  private Integer getDefaultSize(int size) {
-    return Math.max(PageConstant.PAGE_SIZE, size);
   }
 }

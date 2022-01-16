@@ -11,12 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<UserEntity, Long> {
 
-  @Query("SELECT u FROM UserEntity u WHERE u.firstName LIKE CONCAT(:firstName, '%')")
-  List<UserEntity> findByFirstName(String firstName, Pageable pageable);
-
-  @Query("SELECT u FROM UserEntity u WHERE u.lastName LIKE CONCAT('%', :lastName) "
-      + "AND u.firstName LIKE CONCAT(:firstName, '%')")
-  List<UserEntity> findByFullName(String lastName, String firstName);
-
+  List<UserEntity> findByFirstNameStartsWith(String firstName, Pageable pageable);
+  List<UserEntity> findByLastNameEndsWithAndFirstNameStartsWith(String lastName, String firstName);
   List<UserEntity> findByUserNameContains(String keyword);
 }

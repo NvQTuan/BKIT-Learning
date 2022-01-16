@@ -27,7 +27,7 @@ public class UserController {
   @GetMapping("/getUser")
   public List<UserEntity> getByUserNameOrFirstName(@RequestParam(name = "firstName",
       defaultValue = "") String firstName, @RequestParam(defaultValue = "1") Integer page,
-      @RequestParam(required = false) Integer size) {
+      @RequestParam(required = false, defaultValue = PageConstant.PAGE_SIZE) Integer size) {
     final List<UserEntity> userEntity = userService.getUserByFirstName(firstName, page, size);
     return userEntity;
   }
