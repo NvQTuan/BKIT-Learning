@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends PagingAndSortingRepository<UserEntity, Long> {
 
   List<UserEntity> findByFirstNameStartsWith(String firstName, Pageable pageable);
-  List<UserEntity> findByLastNameEndsWithAndFirstNameStartsWith(String lastName, String firstName);
+  List<UserEntity> findByFirstNameStartsWith(String firstName);
+  List<UserEntity> findByLastNameStartsWith(String lastName);
+  List<UserEntity> findByLastNameStartsWithAndFirstNameContains(String lastName, String firstName);
   List<UserEntity> findByUserNameContains(String keyword);
   boolean existsByUserName(String userName);
 }
