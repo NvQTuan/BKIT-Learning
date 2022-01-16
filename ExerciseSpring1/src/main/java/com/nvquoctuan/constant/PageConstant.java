@@ -2,5 +2,5 @@ package com.nvquoctuan.constant;
 
 public interface PageConstant {
 
-  int PAGE_SIZE = 2;
+  int PAGE_SIZE = 1;
 }

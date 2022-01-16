@@ -1,5 +1,7 @@
 package com.nvquoctuan.service;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -7,16 +9,15 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.nvquoctuan.constant.PageConstant;
 import com.nvquoctuan.entity.UserEntity;
 import com.nvquoctuan.repository.UserRepository;
 import java.util.Date;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,19 +29,18 @@ public class UserServiceImplTests {
   @InjectMocks
   private UserServiceImpl userServiceImpl;
 
-  ArgumentCaptor<Pageable> captor = ArgumentCaptor.forClass(Pageable.class);
-
-  @Test
-  void getUser_whenFindByUserNameOrFirstName_thenReturnUser() {
-    userServiceImpl.findByUserNameOrFirstName(anyString() , eq(PageConstant.PAGE_SIZE));
-    verify(userRepository, times(1)).findByUserNameOrFirstName(anyString(),
-        captor.capture());
-  }
+//  @Test
+//  void getUser_whenFindByUserNameOrFirstName_thenReturnUser() {
+//    Pageable pageable = PageRequest.of(0, 1);
+//    userServiceImpl.getUserByFirstName(anyString(), anyInt(), anyInt());
+//    verify(userRepository, times(1)).findByFirstName(anyString(),
+//        eq(pageable));
+//  }
 
   @Test
   void getUser_whenFindByUserNameOrFullName_thenReturnUser() {
     when(userRepository.findByUserNameContains(anyString())).thenReturn(anyList());
-    userServiceImpl.findByUserNameOrFullName(anyString());
+    userServiceImpl.getUserByFullName(anyString());
     verify(userRepository, times(1)).findByUserNameContains(anyString());
   }
 

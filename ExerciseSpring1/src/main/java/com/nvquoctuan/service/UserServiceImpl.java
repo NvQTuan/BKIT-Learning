@@ -32,21 +32,21 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<UserEntity> findByUserNameOrFirstName(String keyword, Integer pageNumber) {
-    Pageable pageable = PageRequest.of(getPageNumber(pageNumber), PageConstant.PAGE_SIZE);
-    return userRepository.findByUserNameOrFirstName(keyword, pageable);
+  public List<UserEntity> getUserByFirstName(String firstName, int pageNumber, int size) {
+    final Pageable pageable = PageRequest.of(getPageNumber(pageNumber), getDefaultSize(size));
+    return userRepository.findByFirstName(firstName, pageable);
   }
 
   @Override
-  public List<UserEntity> findByUserNameOrFullName(String search) {
-    if (search == null) {
+  public List<UserEntity> getUserByFullName(String keywordSearch) {
+    if (keywordSearch == null) {
       return new ArrayList<>();
     }
     Set<UserEntity> responseUserEntity = new HashSet<>();
     Map<Integer, Integer> indexCharInString = new HashMap<>();
     AtomicInteger i = new AtomicInteger();
     AtomicInteger index = new AtomicInteger();
-    List<String> keywords = Stream.of(search.split("\\s")).collect(Collectors.toList());
+    List<String> keywords = Stream.of(keywordSearch.split("\\s")).collect(Collectors.toList());
     keywords.forEach(keyword -> {
       indexCharInString.put(i.intValue(), index.intValue());
       i.getAndIncrement();
@@ -54,14 +54,14 @@ public class UserServiceImpl implements UserService {
     });
     indexCharInString.forEach((i1, value) -> {
       final int indexEndLastName = value + keywords.get(i1).length();
-      final String lastNameKeyword = search
-          .substring(0, Math.min(indexEndLastName, search.length()));
+      final String lastNameKeyword = keywordSearch
+          .substring(0, Math.min(indexEndLastName, keywordSearch.length()));
       final int indexStartFirstName = value + keywords.get(i1).length() + 1;
-      final String firstNameKeyword = search.length() > indexStartFirstName ? search
+      final String firstNameKeyword = keywordSearch.length() > indexStartFirstName ? keywordSearch
           .substring(indexStartFirstName) : "";
       responseUserEntity.addAll(userRepository.findByFullName(lastNameKeyword, firstNameKeyword));
     });
-    responseUserEntity.addAll(userRepository.findByUserNameContains(search));
+    responseUserEntity.addAll(userRepository.findByUserNameContains(keywordSearch));
     return new ArrayList<>(responseUserEntity);
   }
 
@@ -70,7 +70,11 @@ public class UserServiceImpl implements UserService {
     return userRepository.save(userEntity);
   }
 
-  private Integer getPageNumber(Integer pageNumber) {
+  private Integer getPageNumber(int pageNumber) {
     return pageNumber <= 1 ? 0 : pageNumber - 1;
+  }
+
+  private Integer getDefaultSize(int size) {
+    return Math.max(PageConstant.PAGE_SIZE, size);
   }
 }

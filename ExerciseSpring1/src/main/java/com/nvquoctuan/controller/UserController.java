@@ -1,6 +1,6 @@
 package com.nvquoctuan.controller;
 
-
+import com.nvquoctuan.constant.PageConstant;
 import com.nvquoctuan.dto.UserDto;
 import com.nvquoctuan.entity.UserEntity;
 import com.nvquoctuan.service.UserServiceImpl;
@@ -24,17 +24,18 @@ public class UserController {
 
   private final UserServiceImpl userService;
 
-  @GetMapping("/username-or-firstname")
-  public List<UserEntity> getByUserNameOrFirstName(@RequestParam(name = "q",
-      defaultValue = "") String keyword, @RequestParam(defaultValue = "1") Integer page) {
-    final List<UserEntity> userEntity = userService.findByUserNameOrFirstName(keyword, page);
+  @GetMapping("/getUser")
+  public List<UserEntity> getByUserNameOrFirstName(@RequestParam(name = "firstName",
+      defaultValue = "") String firstName, @RequestParam(defaultValue = "1") Integer page,
+      @RequestParam(required = false) Integer size) {
+    final List<UserEntity> userEntity = userService.getUserByFirstName(firstName, page, size);
     return userEntity;
   }
 
-  @GetMapping("/username-or-fullname")
-  public List<UserEntity> getByUserNameOrFullName(@RequestParam(name = "q",
+  @GetMapping("/getUserByFullName")
+  public List<UserEntity> getByUserNameOrFullName(@RequestParam(name = "keyword",
       defaultValue = "") String keyword) {
-    final List<UserEntity> userEntity = userService.findByUserNameOrFullName(keyword);
+    final List<UserEntity> userEntity = userService.getUserByFullName(keyword);
     return userEntity;
   }
 
