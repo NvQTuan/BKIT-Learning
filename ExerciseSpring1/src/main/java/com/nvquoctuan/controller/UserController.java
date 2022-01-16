@@ -5,6 +5,7 @@ import com.nvquoctuan.dto.UserDto;
 import com.nvquoctuan.entity.UserEntity;
 import com.nvquoctuan.service.UserServiceImpl;
 import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -41,7 +42,7 @@ public class UserController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public UserEntity createUser(@RequestBody UserDto userDto) {
+  public UserEntity createUser(@Valid @RequestBody UserDto userDto) {
     final UserEntity userEntity = UserEntity.builder()
         .userName(userDto.getUserName())
         .firstName(userDto.getFirstName())

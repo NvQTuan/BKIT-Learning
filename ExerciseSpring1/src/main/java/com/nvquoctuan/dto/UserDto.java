@@ -1,6 +1,6 @@
 package com.nvquoctuan.dto;
 
-import com.nvquoctuan.constant.ValidateEntityConstant;
+import com.nvquoctuan.constant.ValidateConstant;
 import java.util.Date;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
@@ -17,13 +17,13 @@ import lombok.Setter;
 @Builder
 public class UserDto {
 
-  @Size(min = ValidateEntityConstant.MIN_SIZE_USERNAME, max = ValidateEntityConstant.MAX_SIZE_USERNAME)
+  @Size(min = ValidateConstant.MIN_SIZE_USERNAME, max = ValidateConstant.MAX_SIZE_USERNAME)
   private String userName;
 
-  @Max(value = ValidateEntityConstant.MAX_SIZE_CHARACTER)
+  @Size(max = ValidateConstant.MAX_SIZE_CHARACTER)
   private String firstName;
 
-  @Max(value = ValidateEntityConstant.MAX_SIZE_CHARACTER)
+  @Size(max = ValidateConstant.MAX_SIZE_CHARACTER)
   private String lastName;
   private Date birthDay;
 }

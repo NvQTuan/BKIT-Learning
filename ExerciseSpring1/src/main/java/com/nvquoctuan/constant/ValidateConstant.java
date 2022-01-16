@@ -1,6 +1,6 @@
 package com.nvquoctuan.constant;
 
-public class ValidateEntityConstant {
+public class ValidateConstant {
 
   public static final int MIN_SIZE_USERNAME = 6;
   public static final int MAX_SIZE_USERNAME = 64;
