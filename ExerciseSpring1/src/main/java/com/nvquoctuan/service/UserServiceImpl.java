@@ -1,6 +1,5 @@
 package com.nvquoctuan.service;
 
-import com.nvquoctuan.constant.PageConstant;
 import com.nvquoctuan.entity.UserEntity;
 import com.nvquoctuan.repository.UserRepository;
 import java.util.ArrayList;
@@ -71,6 +70,8 @@ public class UserServiceImpl implements UserService {
     return userRepository.save(userEntity);
   }
 
+  @Override
+  public boolean existsByUserName(String userName) { return userRepository.existsByUserName(userName); }
   private Integer getPageNumber(int pageNumber) {
     return pageNumber <= 1 ? 0 : pageNumber - 1;
   }

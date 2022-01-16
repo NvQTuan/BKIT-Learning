@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import com.nvquoctuan.entity.UserEntity;
 import com.nvquoctuan.repository.UserRepository;
 import java.util.Date;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -42,15 +43,25 @@ public class UserServiceImplTests {
 
   @Test
   void saveUser_whenSaveUser_thenReturnUser() {
-    final UserEntity userEntity = UserEntity.builder()
+    final UserEntity userEntity = buildUserEntity();
+    userServiceImpl.createUser(userEntity);
+    verify(userRepository, times(1)).save(userEntity);
+  }
+
+  @Test
+  void checkUser_whenExistsUserName_thenReturnFalse() {
+    boolean actual = userServiceImpl.existsByUserName(anyString());
+    verify(userRepository, times(1)).existsByUserName(anyString());
+    Assertions.assertEquals(false, actual);
+  }
+
+  private UserEntity buildUserEntity() {
+    return UserEntity.builder()
         .userName("userName")
         .firstName("userName")
         .lastName("lastName" )
         .birthDay(new Date())
         .insertedDate(new Date())
         .build();
-
-    userServiceImpl.createUser(userEntity);
-    verify(userRepository, times(1)).save(userEntity);
   }
 }

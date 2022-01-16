@@ -2,7 +2,6 @@ package com.nvquoctuan.dto;
 
 import com.nvquoctuan.constant.ValidateConstant;
 import java.util.Date;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
