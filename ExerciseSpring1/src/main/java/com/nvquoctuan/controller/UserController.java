@@ -9,12 +9,13 @@ import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -41,14 +42,13 @@ public class UserController {
   }
 
   @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
-  public UserEntity createUser(@Valid @RequestBody UserDto userDto) {
+  public ResponseEntity<?> createUser(@Valid @RequestBody UserDto userDto) {
     final UserEntity userEntity = UserEntity.builder()
         .userName(userDto.getUserName())
         .firstName(userDto.getFirstName())
         .lastName(userDto.getLastName())
         .birthDay(userDto.getBirthDay())
         .build();
-    return userService.createUser(userEntity);
+    return new ResponseEntity<>(userService.createUser(userEntity), HttpStatus.CREATED);
   }
 }
