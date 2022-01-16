@@ -2,6 +2,7 @@ package com.nvquoctuan.controller;
 
 import com.nvquoctuan.constant.PageConstant;
 import com.nvquoctuan.dto.CustomErrorResponseDto;
+import com.nvquoctuan.dto.UserDetailResponseDto;
 import com.nvquoctuan.dto.UserDto;
 import com.nvquoctuan.dto.UserResponseDto;
 import com.nvquoctuan.entity.UserEntity;
@@ -29,21 +30,29 @@ public class UserController {
   private final UserServiceImpl userService;
 
   @GetMapping("/getUser")
-  public List<UserResponseDto> getByUserNameOrFirstName(@RequestParam(name = "firstName",
+  public UserResponseDto getByUserNameOrFirstName(@RequestParam(name = "firstName",
       defaultValue = "") String firstName,
       @RequestParam(defaultValue = PageConstant.PAGE_NUMBER) Integer page,
       @RequestParam(required = false, defaultValue = PageConstant.PAGE_SIZE) Integer size) {
-    final List<UserEntity> userEntity = userService.getUserByFirstName(firstName, page, size);
-    return userEntity.stream().map(user -> buildUserResponseDto(user.getUserName()))
-        .collect(Collectors.toList());
+    final List<UserEntity> usersEntity = userService.getUserByFirstName(firstName, page, size);
+    final List<UserDetailResponseDto> userDetails = usersEntity.stream()
+        .map(this::buildUserDetailResponseDto).collect(Collectors.toList());
+    return UserResponseDto.builder()
+        .totalResult(usersEntity.size())
+        .userDetails(userDetails)
+        .build();
   }
 
   @GetMapping("/getUserByFullName")
-  public List<UserResponseDto> getByUserNameOrFullName(@RequestParam(name = "keyword",
+  public UserResponseDto getByUserNameOrFullName(@RequestParam(name = "keyword",
       defaultValue = "") String keyword) {
-    final List<UserEntity> userEntity = userService.getUserByFullName(keyword);
-    return userEntity.stream().map(user -> buildUserResponseDto(user.getUserName()))
-        .collect(Collectors.toList());
+    final List<UserEntity> usersEntity = userService.getUserByFullName(keyword);
+    final List<UserDetailResponseDto> userDetails = usersEntity.stream()
+        .map(this::buildUserDetailResponseDto).collect(Collectors.toList());
+    return UserResponseDto.builder()
+        .totalResult(usersEntity.size())
+        .userDetails(userDetails)
+        .build();
   }
 
   @PostMapping
@@ -60,12 +69,15 @@ public class UserController {
           HttpStatus.BAD_REQUEST);
     }
     final UserEntity responseUserEntity = userService.createUser(userEntity);
-    return new ResponseEntity<>(buildUserResponseDto(responseUserEntity.getUserName()), HttpStatus.CREATED);
+    return new ResponseEntity<>(buildUserDetailResponseDto(responseUserEntity),
+        HttpStatus.CREATED);
   }
 
-  private UserResponseDto buildUserResponseDto(String userName) {
-    return UserResponseDto.builder()
-        .userName(userName)
+  private UserDetailResponseDto buildUserDetailResponseDto(UserEntity userEntity) {
+    return UserDetailResponseDto.builder()
+        .userName(userEntity.getUserName())
+        .firstName(userEntity.getFirstName())
+        .lastName((userEntity.getLastName()))
         .build();
   }
 }

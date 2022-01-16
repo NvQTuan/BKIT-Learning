@@ -61,7 +61,6 @@ public class UserServiceImpl implements UserService {
       responseUserEntity.addAll(userRepository
           .findByLastNameEndsWithAndFirstNameStartsWith(lastNameKeyword, firstNameKeyword));
     });
-    responseUserEntity.addAll(userRepository.findByUserNameContains(keywordSearch));
     return new ArrayList<>(responseUserEntity);
   }
 
