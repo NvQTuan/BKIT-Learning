@@ -25,14 +25,7 @@ public class UserServiceImplTests {
   @InjectMocks
   private UserServiceImpl userServiceImpl;
 
-  // TODO fix error can't execute below test
-//  @Test
-//  void getUser_whenFindByUserNameOrFirstName_thenReturnUser() {
-//    Pageable pageable = PageRequest.of(0, 1);
-//    userServiceImpl.getUserByFirstName(anyString(), anyInt(), anyInt());
-//    verify(userRepository, times(1)).findByFirstName(anyString(),
-//        eq(pageable));
-//  }
+  // TODO Add testing for pageable
 
   @Test
   void getUser_whenFindByFullName_thenReturnUser() {
